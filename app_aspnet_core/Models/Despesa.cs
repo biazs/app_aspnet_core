@@ -19,10 +19,12 @@ namespace app_aspnet_core.Models
         public string Descricao { get; set; }
 
         [Display(Name = "Data")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Required(ErrorMessage = "Campo Obrigatório")]
         public DateTime Data { get; set; }
 
         [Display(Name = "Valor")]
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         [Required(ErrorMessage = "Campo Obrigatório")]
         public double Valor { get; set; }
 

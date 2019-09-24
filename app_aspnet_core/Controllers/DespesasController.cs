@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using app_aspnet_core.Data;
 using app_aspnet_core.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace app_aspnet_core.Controllers
 {
+    [Authorize]
     public class DespesasController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -23,6 +25,24 @@ namespace app_aspnet_core.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Despesa.Include(d => d.Categoria);
+            return View(await applicationDbContext.ToListAsync());
+        }
+
+
+        public async Task<IActionResult> PorCategoria(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var applicationDbContext = _context.Despesa.Include(d => d.Categoria).Where(c => c.CategoriaId == id);
+
+            if (applicationDbContext == null)
+            {
+                return NotFound();
+            }
+
             return View(await applicationDbContext.ToListAsync());
         }
 
